@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en-au">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>DOM hooks presentation</title>
+
+    <meta name="description" content="A presentation about the different DOM hooks you can use in your project to keep things more maintainable, robust, and scalable">
+    <meta name="author" content="Chris Pearce">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather:400,700,400italic">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="lib/css/prism-okiadia.css">
+    <link rel="stylesheet" href="css/theme/scally.css" id="theme">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+
+
+
+        <section>
+          <h1>DOM Hooks</h1>
+          <p>Smarter ways to target elements in the DOM.</p>
+
+          <aside class="notes">
+            Simple concept that often gets overlooked
+          </aside>
+        </section>
+
+
+
+
+        <section>
+          <h1>The problem</h1>
+          <p>One hook to do
+            <strong>all</strong> the things e.g.</p>
+          <pre><code class="language-markup">&lt;button class="btn-menu"&gt;</code></pre>
+          <p>The
+            <code class="language-css">.btn-menu</code> class could be used as a hook for:</p>
+          <ul>
+            <li>CSS styles</li>
+            <li>JavaScript behaviours</li>
+            <li>Automated tests</li>
+            <li>Tracking e.g. Google Analytics</li>
+          </ul>
+
+          <div class="overlay fragment">
+            <div class="sticker sticker--fragile">
+              <em>Fragile</em>
+              <strong>Handle with care</strong>
+            </div>
+          </div>
+
+          <aside class="notes">
+            Typically you'd start with using it for CSS styles, then another dev who needs to attach some JS behaviour usually will just
+            use that, because it's there. And so on and so on.
+          </aside>
+        </section>
+
+
+
+
+        <section>
+          <h1>The solution</h1>
+          <p>A naming convention that enforces a clear
+            <a href="http://en.wikipedia.org/wiki/Separation_of_concerns" target="_blank">separation of concerns</a> e.g.</p>
+          <pre><code class="language-markup">&lt;button class="[css]  [js]  [test]  [track]"&gt;</code></pre>
+          <p>This means there will never be any troublesome overlap.</p>
+        </section>
+
+        <section data-background="lib/img/chuck-norris-1.jpg">
+          <div class="sticker sticker--approved sticker--alt-position">
+            <em>Solid</em>
+          </div>
+        </section>
+
+
+
+
+        <section>
+          <h1>Meet the hooks</h1>
+          <p>All hooks are namespaced except for CSS hooks:</p>
+          <ul>
+            <li>
+              <code class="language-css">.js-</code> = JavaScript hook</li>
+            <li>
+              <code class="language-css">.test-</code> = Automated test hook</li>
+            <li>
+              <code class="language-css">.track-</code> = Tracking hook</li>
+          </ul>
+          <pre><code class="language-markup">&lt;button class="drop-down-btn btn-menu  js-header-menu-btn  test-header-menu-btn  track-header-menu-btn"&gt;</code></pre>
+
+          <p>CSS hooks don't have a namespace but in the scope of the
+            <a href="http://scally.chris-pearce.me/presentation" target="_blank">Scally framework</a> some CSS hooks do e.g.
+            <code class="language-css">.l-</code> (a layout module) and
+            <code class="language-css">.u-</code> (a utility). Plus any
+            <strong>state</strong> based hooks are namespaced with
+            <code class="language-css">.is-</code> e.g.
+            <code class="language-css">.is-active</code>,
+            <code class="language-css">.is-hidden</code>.</p>
+        </section>
+
+
+
+        <section>
+          <h1>Order of the hooks</h1>
+          <p>The order of the hooks, within the class attribute, should be:</p>
+          <ol class="u-list-padding">
+            <li>Style hooks:
+              <ol>
+                <li>Component hook (no namespace)</li>
+                <li>Layout hook (
+                  <code class="language-css">.l-</code>)</li>
+                <li>Utility hook (
+                  <code class="language-css">.u-</code>)</li>
+              </ol>
+            </li>
+            <li>JavaScript hooks (
+              <code class="language-css">.js-</code>)</li>
+            <li>Test hooks (
+              <code class="language-css">.test-</code>)</li>
+            <li>Tracking hooks (
+              <code class="language-css">.track-</code>)</li>
+          </ol>
+        </section>
+
+
+
+        <section class="u-s-pe-none">
+          <img src="lib/img/GH-commit-1.png" alt="GitHub commit comment">
+          <img src="lib/img/GH-commit-2.png" alt="GitHub commit converstation between Chris Pearce and Ian Tinsley">
+
+          <div class="overlay fragment">
+            <img src="lib/img/GH-commit-3.png" alt="GitHub commit comment">
+          </div>
+        </section>
+
+
+
+
+        <section>
+          <p>A common practice is to use HTML5
+            <code class="language-markup">data-*</code> attributes as hooks, but this is incorrect.
+            <code class="language-markup">data-*</code> attributes, as per the
+            <a href="http://www.w3.org/TR/2011/WD-html5-20110525/elements.html#embedding-custom-non-visible-data-with-the-data-attributes"
+              target="_blank">spec</a>, are used to store custom data private to the page or application.
+            <code class="language-markup">data-*</code> attributes are designed to store data, not be bound to.</p>
+        </section>
+
+
+
+
+        <section>
+          <h1>Thank you</h1>
+          <p>Read more in my
+            <a href="https://github.com/chris-pearce/css-guidelines" target="_blank">CSS Guidelines</a>.</p>
+          <p>
+            <a href="https://presentations.cjpearce.com/dom-hooks" target="_blank">https://presentations.cjpearce.com/dom-hooks</a>
+          </p>
+        </section>
+
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        width: 900,
+
+        // Tranisition type
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Transition speed
+        transitionSpeed: 'fast', // default/fast/slow
+
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function () { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+          { src: 'plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true }
+        ]
+      });
+
+    </script>
+    <script src="plugin/prism/prism.js"></script>
+
+  </body>
+
+</html>
