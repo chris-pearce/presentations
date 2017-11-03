@@ -1,7 +1,8 @@
-# Scally CSS framework
+# Scally
 
-A presentation on the [Scally CSS framework](https://github.com/chris-pearce/scally).
+A presentation on my open source Scally CSS framework.
 
-<https://presentations.cjpearce.com/scally>
+* [The presentation](https://presentations.cjpearce.com/scally)
+* [The source code](https://github.com/chris-pearce/scally)
 
-This presentation has been [built with](https://github.com/hakimel/reveal.js).
+This presentation has been built with [reveal.js](https://github.com/hakimel/reveal.js).

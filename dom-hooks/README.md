@@ -8,4 +8,4 @@ A presentation on the different DOM hooks you can use in your project to keep th
 
 <https://presentations.cjpearce.com/dom-hooks>
 
-This presentation has been [built with](https://github.com/hakimel/reveal.js).
+This presentation has been built with [reveal.js](https://github.com/hakimel/reveal.js).
